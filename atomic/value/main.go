@@ -18,6 +18,7 @@ func main() {
 	fmt.Printf("Store %v to box.\n", v1)
 	box.Store(v1)
 	fmt.Printf("The value load from box is %v.\n", box.Load())
+	// 此处是nil，因为box是在使用之前复制的
 	fmt.Printf("The value load from box2 is %v.\n", box2.Load())
 	fmt.Println()
 
@@ -91,6 +92,28 @@ func main() {
 	store(v6)
 	v6[2] = 5 // 此处的操作是安全的。
 	fmt.Printf("The value load from box6 is %v.\n", box6.Load())
+
+	// 示例7。
+	// 测试存储指针
+	type Dummy struct {
+		A int64 `json:"a"`
+	}
+	var box7 atomic.Value
+	dummy := &Dummy{A: 1}
+	fmt.Printf("Store %v to box7.\n", dummy)
+	box7.Store(dummy)
+	fmt.Printf("The value load from box7 is %v.\n", box7.Load())
+	dummy.A = 2
+	fmt.Printf("The value load from box7 is %v.\n", box7.Load())
+	// 测试指针
+	//var dummy2 *Dummy = dummy
+	//v, _ := json.Marshal(Dummy{A: 5})
+	//fmt.Println(string(v))
+	//fmt.Println(json.Unmarshal(v, dummy2))
+	////json.Unmarshal([]byte("{a:5}"), &dummy2)
+	//fmt.Println(dummy2, dummy)
+	//dummy2.A = 3
+	//fmt.Println(dummy2, dummy)
 }
 
 type atomicValue struct {
