@@ -41,7 +41,16 @@ func sq(done <-chan struct{}, in <-chan int) <-chan int {
 2. 生成器：一次性生成一系列值；
 3. 广播（Broadcast）：把一个消息同时传输到所有接收端；
 
+4. Active Object
+
+[Active object](https://colobu.com/2019/07/02/concurrency-design-patterns-active-object/)
+
+5. [Golang并发：并发协程的优雅退出](https://mp.weixin.qq.com/s/RjomKnfwCTy7tC9gbpPxCQ)
+
 ### messaging消息传递模式
 
 1. 扇入：该模块直接调用上级模块的个数，像漏斗型一样去工作
 2. 扇出：该模块直接调用的下级模块的个数；
+
+[Golang并发模型：轻松入门流水线FAN模式](https://segmentfault.com/a/1190000017182416)
+
