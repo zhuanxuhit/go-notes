@@ -20,6 +20,7 @@ func main() {
 	// send 代表用于发信的函数。
 	send := func(id, index int) {
 		lock.Lock()
+		defer lock.Unlock()
 		for mailbox == 1 {
 			sendCond.Wait()
 		}
@@ -28,13 +29,14 @@ func main() {
 		mailbox = 1
 		log.Printf("sender [%d-%d]: the letter has been sent.",
 			id, index)
-		lock.Unlock()
+
 		recvCond.Broadcast()
 	}
 
 	// recv 代表用于收信的函数。
 	recv := func(id, index int) {
 		lock.Lock()
+		defer lock.Unlock()
 		for mailbox == 0 {
 			recvCond.Wait()
 		}
@@ -43,7 +45,7 @@ func main() {
 		mailbox = 0
 		log.Printf("receiver [%d-%d]: the letter has been received.",
 			id, index)
-		lock.Unlock()
+
 		sendCond.Signal() // 确定只会有一个发信的goroutine。
 	}
 
